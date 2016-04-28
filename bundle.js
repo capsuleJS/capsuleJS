@@ -25267,7 +25267,7 @@
 /* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -25278,6 +25278,14 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _swipe_card = __webpack_require__(224);
+
+	var _swipe_card2 = _interopRequireDefault(_swipe_card);
+
+	var _hold_to_trigger = __webpack_require__(225);
+
+	var _hold_to_trigger2 = _interopRequireDefault(_hold_to_trigger);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25297,36 +25305,76 @@
 	  }
 
 	  _createClass(Landing, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "landing" },
+	        'div',
+	        { className: 'landing' },
 	        _react2.default.createElement(
-	          "h1",
+	          'h1',
 	          null,
-	          "CapsuleJS"
+	          'CapsuleJS'
 	        ),
 	        _react2.default.createElement(
-	          "h2",
+	          'h2',
 	          null,
-	          "Interactive wrappers for React Components."
+	          'Interactive wrappers for React Components.'
 	        ),
 	        _react2.default.createElement(
-	          "a",
-	          { href: "https://github.com/capsuleJS/capsule-components", target: "_blank", className: "center" },
-	          "Source on Github"
+	          'a',
+	          { href: 'https://github.com/capsuleJS/capsule-components', target: '_blank', className: 'center' },
+	          'Source on Github'
 	        ),
 	        _react2.default.createElement(
-	          "p",
-	          { className: "landing-about" },
-	          "These interactive examples show you how to use Capsule Components to build interactive UI components and features for your application. You can start using these components in your code right away, or customize them to your heart's desire."
+	          'p',
+	          { className: 'landing-about' },
+	          'These interactive examples show you how to use Capsule Components to build interactive UI components and features for your application. You can start using these components in your code right away, or customize them to your heart\'s desire.'
 	        ),
 	        _react2.default.createElement(
-	          "div",
-	          { className: "thumbnails" },
-	          _react2.default.createElement("div", { className: "thumbnail" }),
-	          _react2.default.createElement("div", { className: "thumbnail" })
+	          'div',
+	          { className: 'thumbnails' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'thumbnail' },
+	            _react2.default.createElement(
+	              _swipe_card2.default,
+	              null,
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'thumbnail-instruction' },
+	                'Drag Me!'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'thumbnail' },
+	            _react2.default.createElement(
+	              _hold_to_trigger2.default,
+	              { wait: 2000, auto: true },
+	              _react2.default.createElement(_hold_to_trigger.Reactor, null),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'thumbnail-instruction', style: {
+	                    borderRadius: '8px',
+	                    width: "100%",
+	                    height: "100%",
+	                    display: "inline-flex",
+	                    justifyContent: "center",
+	                    alignItems: "center",
+	                    backgroundColor: '#b8b8b8',
+	                    boxShadow: "0px 4px 16px 0px rgba(0,0,0,0.16)"
+	                  } },
+	                'Hold Me!'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: 'thumbnail' })
+	        ),
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'More coming soon...'
 	        )
 	      );
 	    }
@@ -25385,6 +25433,376 @@
 	}(_react.Component);
 
 	exports.default = Example;
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //in progress
+
+
+	var SwipeCard = function (_Component) {
+	  _inherits(SwipeCard, _Component);
+
+	  function SwipeCard() {
+	    _classCallCheck(this, SwipeCard);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SwipeCard).call(this));
+
+	    _this.state = {
+	      trigger: false,
+	      prevPos: { x: 0, y: 0 },
+	      currPos: { x: 0, y: 0 },
+	      boundary: null,
+	      zone: null,
+	      cardStyle: {
+	        top: 0,
+	        left: 0,
+	        transform: 'rotate(0deg)',
+	        transition: 'transform 100ms'
+	      }
+	    };
+	    _this.boundMouseUpHandler = _this.mouseUpHandler.bind(_this);
+	    _this.boundMouseMoveHandler = _this.mouseMoveHandler.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(SwipeCard, [{
+	    key: 'stop',
+	    value: function stop(e) {
+	      e.preventDefault();e.stopPropagation();
+	    } // Event stopping utility
+
+	  }, {
+	    key: 'addHandlers',
+	    value: function addHandlers() {
+	      // Listeners added on drag start
+	      document.addEventListener('mousemove', this.boundMouseMoveHandler);
+	      document.addEventListener('touchmove', this.boundMouseMoveHandler);
+	      document.addEventListener('mouseup', this.boundMouseUpHandler);
+	      document.addEventListener('touchend', this.boundMouseUpHandler);
+	    }
+	  }, {
+	    key: 'removeHandlers',
+	    value: function removeHandlers() {
+	      // Listeners removed after drag
+	      document.removeEventListener('mousemove', this.boundMouseMoveHandler);
+	      document.removeEventListener('touchmove', this.boundMouseMoveHandler);
+	      document.removeEventListener('mouseup', this.boundMouseUpHandler);
+	      document.removeEventListener('touchend', this.boundMouseUpHandler);
+	    }
+	  }, {
+	    key: 'mouseDownHandler',
+	    value: function mouseDownHandler(e) {
+	      if (e) this.stop(e);
+	      console.log(e.currentTarget.getBoundingClientRect());
+	      this.setState({
+	        boundary: e.currentTarget.getBoundingClientRect(),
+	        prevPos: {
+	          y: e.touches !== undefined ? e.touches[0].clientY : e.clientY,
+	          x: e.touches !== undefined ? e.touches[0].clientX : e.clientX
+	        }
+	      });
+	      this.addHandlers();
+	    }
+	  }, {
+	    key: 'mouseUpHandler',
+	    value: function mouseUpHandler(e) {
+	      console.log("inside mouse up");
+	      if (this.state.trigger) {
+	        if (this.props.onLeft && this.state.zone[1] === 'left') this.props.onLeft();
+	        if (this.props.onRight && this.state.zone[1] === 'right') this.props.onRight();
+	      }
+	      this.setState({
+	        cardStyle: {
+	          top: 0,
+	          left: 0,
+	          transform: 'rotate(0deg)',
+	          transition: 'transform ' + this.props.snap || 500 + 'ms'
+	        }
+	      });
+	      this.removeHandlers();
+	    }
+	  }, {
+	    key: 'mouseMoveHandler',
+	    value: function mouseMoveHandler(e) {
+	      var x1 = this.state.prevPos.x;
+	      var y1 = this.state.prevPos.y;
+	      var x2 = e.touches !== undefined ? e.touches[0].clientX : e.clientX;
+	      var y2 = e.touches !== undefined ? e.touches[0].clientY : e.clientY;
+	      this.setState({
+	        zone: this.setDragPos(x1, y1, x2, y2),
+	        trigger: y2 < this.state.boundary.top || y2 > this.state.boundary.bottom || x2 < this.state.boundary.left || x2 > this.state.boundary.right
+	      });
+	    }
+	  }, {
+	    key: 'setDragPos',
+	    value: function setDragPos(x1, y1, x2, y2) {
+	      var xDiff = x1 - x2;
+	      var yDiff = y1 - y2;
+	      var multiplier = xDiff >= 0 && yDiff >= 0 || xDiff < 0 && yDiff < 0 ? 1 : -1;
+	      var ratio = Math.abs(xDiff / (xDiff > 0 ? x1 : window.innerWidth - x1));
+	      var angle = multiplier * ratio * 45;
+	      this.setState({
+	        cardStyle: {
+	          top: y2 - y1,
+	          left: x2 - x1,
+	          transform: 'rotate(' + angle + 'deg)',
+	          transition: 'transform ' + this.props.smooth || 100 + 'ms'
+	        }
+	      });
+	      if (yDiff > 0) {
+	        return angle < 0 ? ["top", "right"] : ["top", "left"];
+	      } else if (yDiff < 0) {
+	        return angle > 0 ? ["bottom", "right"] : ["bottom", "left"];
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { style: _extends({ borderWidth: 3,
+	              borderRadius: 8,
+	              backgroundColor: '#b8b8b8',
+	              position: 'relative',
+	              width: '256px',
+	              height: '256px',
+	              boxShadow: "0px 4px 16px 0px rgba(0,0,0,0.16)"
+	            }, this.state.cardStyle), onMouseDownCapture: this.mouseDownHandler.bind(this),
+	            onTouchStartCapture: this.mouseDownHandler.bind(this) },
+	          this.props.children
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SwipeCard;
+	}(_react.Component);
+
+	/*-------- Testing --------*/
+
+	// ReactDOM.render(
+	//   <div style={{
+	//     borderWidth: 3,
+	//     borderRadius: 3,
+	//     borderStyle: 'solid',
+	//     borderColor: '#000',
+	//     position: 'absolute',
+	//     width: '200px',
+	//     height: '300px',
+	//     top: 0,
+	//     bottom: 0,
+	//     left: 0,
+	//     right: 0,
+	//     margin: 'auto'
+	//   }}>
+	//     <SwipeCard onLeft={() => {console.log('onLeft firing!')}} onRight={() => {console.log('onRight firing!')}}/>
+	//   </div>,
+	//   document.querySelector('#container')
+	// )
+
+
+	exports.default = SwipeCard;
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Reactor = undefined;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //in progress
+
+
+	var HoldToTrigger = function (_Component) {
+	  _inherits(HoldToTrigger, _Component);
+
+	  function HoldToTrigger() {
+	    _classCallCheck(this, HoldToTrigger);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HoldToTrigger).call(this));
+
+	    _this.state = {
+	      isTouched: false,
+	      isTriggered: false,
+	      timeout: null
+	    };
+	    _this.boundMouseUpHandler = _this.mouseUpHandler.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(HoldToTrigger, [{
+	    key: 'stop',
+	    value: function stop(e) {
+	      e.preventDefault();e.stopPropagation();
+	    }
+	  }, {
+	    key: 'addHandlers',
+	    value: function addHandlers() {
+	      document.addEventListener('mouseup', this.boundMouseUpHandler);
+	      document.addEventListener('touchend', this.boundMouseUpHandler);
+	    }
+	  }, {
+	    key: 'removeHandlers',
+	    value: function removeHandlers() {
+	      document.removeEventListener('mouseup', this.boundMouseUpHandler);
+	      document.removeEventListener('touchend', this.boundMouseUpHandler);
+	    }
+	  }, {
+	    key: 'activate',
+	    value: function activate() {
+	      this.setState({ isTriggered: true });
+	      if (this.props.auto) {
+	        console.log('calling callback due to auto equalling true');
+	      }
+	    }
+	  }, {
+	    key: 'mouseDownHandler',
+	    value: function mouseDownHandler(e) {
+	      var _this2 = this;
+
+	      if (e) this.stop(e);
+	      this.setState({ isTouched: true });
+	      console.log("inside mouseDownHandler");
+	      this.setState({ timeout: setTimeout(function () {
+	          _this2.activate();
+	        }, this.props.wait) });
+	      this.addHandlers();
+	    }
+	  }, {
+	    key: 'mouseUpHandler',
+	    value: function mouseUpHandler(e) {
+	      this.setState({ isTouched: false, isTriggered: false });
+	      clearTimeout(this.state.timeout);
+	      if (this.state.isTriggered && !this.props.auto) {
+	        console.log("calling callback in mouseUpHandler");
+	      } else {
+	        console.log("trigger function cancelled");
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { style: {
+	            borderRadius: '8px',
+	            width: '100%',
+	            height: '100%',
+	            position: 'relative',
+	            top: 0,
+	            bottom: 0,
+	            left: 0,
+	            right: 0,
+	            margin: 'auto'
+	          },
+	          onMouseDownCapture: this.mouseDownHandler.bind(this),
+	          onTouchStartCapture: this.mouseDownHandler.bind(this) },
+	        _react2.default.cloneElement(this.props.children[0], _extends({}, this.props.children.props, {
+	          isTouched: this.state.isTouched,
+	          isTriggered: this.state.isTriggered,
+	          wait: this.props.wait
+	        })),
+	        this.props.children[1]
+	      );
+	    }
+	  }]);
+
+	  return HoldToTrigger;
+	}(_react.Component);
+
+	exports.default = HoldToTrigger;
+
+	var Reactor = exports.Reactor = function (_Component2) {
+	  _inherits(Reactor, _Component2);
+
+	  function Reactor() {
+	    _classCallCheck(this, Reactor);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Reactor).apply(this, arguments));
+	  }
+
+	  _createClass(Reactor, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement('div', { style: {
+	          opacity: this.props.isTouched ? 1 : 0,
+	          borderRadius: '8px',
+	          width: '100%',
+	          height: '100%',
+	          backgroundColor: this.props.isTriggered ? 'red' : 'black',
+	          position: 'absolute',
+	          top: 0,
+	          bottom: 0,
+	          left: 0,
+	          right: 0,
+	          margin: 'auto',
+	          transition: 'opacity ' + this.props.wait + 'ms'
+	        } });
+	    }
+	  }]);
+
+	  return Reactor;
+	}(_react.Component);
+
+	/*-------- Testing --------*/
+
+	// ReactDOM.render(
+	//   <HoldToTrigger wait={2000} auto={true}>
+	//     <Reactor/>
+	//   </HoldToTrigger>,
+	//   document.querySelector('#container')
+	// )
 
 /***/ }
 /******/ ]);
