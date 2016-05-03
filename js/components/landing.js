@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 
 import SwipeCard from './showcase_components/swipe_card'
 import HoldToTrigger, {Reactor} from './showcase_components/hold_to_trigger'
+import GameCounter from './showcase_components/tap_counter'
+import TapCounter from './showcase_components/tap_counter'
 
 
 export default class Landing extends Component {
@@ -10,13 +12,13 @@ export default class Landing extends Component {
       <div className="landing">
         <h1>CapsuleJS</h1>
         <h2>Interactive wrappers for React Components.</h2>
-        <a href="https://github.com/capsuleJS/capsule-components" target="_blank" className="center">
-          Source on Github
+        <a href="https://github.com/capsuleJS/capsule-components" target="_blank" className="center-button">
+          <i className="icon ion-social-github"></i> Source on Github
         </a>
-        <p className="landing-about">These interactive examples show you how to use Capsule Components to
-          build interactive UI components and features for your application. You
+        <p className="landing-about">These examples show you how to use Capsule Components to
+          build UI components and interactive features for your application. You
           can start using these components in your code right away, or customize them
-          to your heart's desire.
+          to your heart's content.
         </p>
         <div className="thumbnails">
           <div className="thumbnail">
@@ -42,7 +44,7 @@ export default class Landing extends Component {
             </HoldToTrigger>
           </div>
           <div className="thumbnail">
-
+            <GameCounter/>
           </div>
         </div>
         <h2>

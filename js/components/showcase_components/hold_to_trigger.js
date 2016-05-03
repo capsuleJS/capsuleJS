@@ -86,7 +86,7 @@ export class Reactor extends Component {
         borderRadius: '8px',
         width: '100%',
         height: '100%',
-        backgroundColor: this.props.isTriggered ? 'red' : 'black',
+        backgroundColor: this.props.isTriggered ? '#684fb6' : 'black',
         position: 'absolute',
         top: 0,
         bottom: 0,
