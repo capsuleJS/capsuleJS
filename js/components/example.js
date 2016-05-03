@@ -4,7 +4,7 @@ export default class Example extends Component {
   render(){
     return (
       <div className="landing">
-        Component Detail Page
+        Documentation coming soon...
       </div>
     )
   }
