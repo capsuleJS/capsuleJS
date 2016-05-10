@@ -105,13 +105,14 @@ export default class PullToRefresh extends Component {
   }
 
   render() {
-    const sizes = { width: '100%', minHeight: `${this.props.limit}px`}
+    // const sizes = { width: '100%', minHeight: `${this.props.limit}px`}
     const el1 = React.cloneElement(this.props.children[0], {
       ...this.props.children[0].props,
       style: {
-        position: 'absolute',
-        top: 0,
-        ...this.props.children[0].props.style, ...sizes
+        position: 'relative',
+        // width: '100%',
+        // top: 0,
+        ...this.props.children[0].props.style
       },
       progress: this.state.progress,
       position: this.state.nextY,
@@ -123,11 +124,12 @@ export default class PullToRefresh extends Component {
     const el2 = React.cloneElement(this.props.children[1], {
       ...this.props.children[1].props,
       style: {
-        position: 'relative',
+        position: 'absolute',
         top: this.state.nextY || 0,
         transition: this.state.transition,
         cursor: 'pointer',
-        ...this.props.children[1].props.style, ...sizes
+        zIndex: 1000,
+        ...this.props.children[1].props.style
       },
       progress: this.state.progress,
       position: this.state.nextY,
@@ -139,7 +141,7 @@ export default class PullToRefresh extends Component {
       onTouchStartCapture: (e) => this.mouseDownHandler(e)
     })
     return (
-      <div style={{ width: '100%', height: '100%', ...this.props.style }}>
+      <div style={{ width: '100%', height: '100%', position: 'relative', ...this.props.style }}>
         {/* IDEA: Allow users to select which element is in the foreground */}
         {/*(this.props.foreground === true) ? el2 : el1*/}
         {/*(this.props.foreground === true) ? el1 : el2*/}

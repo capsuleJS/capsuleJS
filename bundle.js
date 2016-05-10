@@ -25200,7 +25200,7 @@
 
 	var _landing2 = _interopRequireDefault(_landing);
 
-	var _example = __webpack_require__(228);
+	var _example = __webpack_require__(229);
 
 	var _example2 = _interopRequireDefault(_example);
 
@@ -25381,6 +25381,15 @@
 	              _react2.default.createElement(
 	                _reactRouter.Link,
 	                { to: 'example' },
+	                'PullMeDown'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { className: 'list-item' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: 'example' },
 	                'TapCounter'
 	              )
 	            )
@@ -25419,7 +25428,15 @@
 
 	var _hold_to_trigger2 = _interopRequireDefault(_hold_to_trigger);
 
-	var _tap_counter = __webpack_require__(227);
+	var _pull_to_refresh = __webpack_require__(227);
+
+	var _pull_to_refresh2 = _interopRequireDefault(_pull_to_refresh);
+
+	var _pull_to_refresh_loading = __webpack_require__(230);
+
+	var _pull_to_refresh_loading2 = _interopRequireDefault(_pull_to_refresh_loading);
+
+	var _tap_counter = __webpack_require__(228);
 
 	var _tap_counter2 = _interopRequireDefault(_tap_counter);
 
@@ -25463,6 +25480,15 @@
 	          ' Source on Github'
 	        ),
 	        _react2.default.createElement(
+	          'pre',
+	          { className: 'install-code' },
+	          _react2.default.createElement(
+	            'mark',
+	            { className: 'mark-class' },
+	            'npm i capsule-components'
+	          )
+	        ),
+	        _react2.default.createElement(
 	          'p',
 	          { className: 'landing-about' },
 	          'These examples show you how to use Capsule Components to build UI components and interactive features for your application. You can start using these components in your code right away, or customize them to your heart\'s content.'
@@ -25503,6 +25529,33 @@
 	                    boxShadow: "0px 4px 16px 0px rgba(0,0,0,0.16)"
 	                  } },
 	                'Hold Me!'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'thumbnail' },
+	            _react2.default.createElement(
+	              _pull_to_refresh2.default,
+	              { limit: 256, threshold: 200, snap: 256 },
+	              _react2.default.createElement(_pull_to_refresh_loading2.default, null),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'thumbnail-instruction', style: {
+	                    borderRadius: '8px',
+	                    width: "100%",
+	                    height: "100%",
+	                    display: "inline-flex",
+	                    justifyContent: "center",
+	                    alignItems: "center",
+	                    backgroundColor: '#b8b8b8',
+	                    boxShadow: "0px 4px 16px 0px rgba(0,0,0,0.16)"
+	                  } },
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'pull-to-refresh-target' },
+	                  'Pull Me Down!'
+	                )
 	              )
 	            )
 	          ),
@@ -25904,6 +25957,209 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PullToRefresh = function (_Component) {
+	  _inherits(PullToRefresh, _Component);
+
+	  function PullToRefresh() {
+	    _classCallCheck(this, PullToRefresh);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PullToRefresh).call(this));
+
+	    _this.state = {
+	      isTouched: false, // Whether the user is currently changing the position of the content div
+	      toTrigger: false, // Whether the content div has passed the threshold
+	      progress: 0, // % value of threshold that that the user has pulled passed
+	      prevY: 0, // Distance of user pointer from top of content div
+	      nextY: 0, // Where the top of the content div should be while pulled
+	      transition: 'none', // If released, the content div is given a smooth transition
+	      trigger: false // Switch to cause the child component to trigger
+	    };
+	    _this.boundMouseUpHandler = _this.mouseUpHandler.bind(_this); // Release handler (named for disposal)
+	    _this.boundMouseMoveHandler = _this.mouseMoveHandler.bind(_this); // Pull handler
+	    return _this;
+	  }
+
+	  _createClass(PullToRefresh, [{
+	    key: 'stop',
+	    value: function stop(e) {
+	      e.preventDefault();e.stopPropagation();
+	    } // Event stopping utility
+
+	  }, {
+	    key: 'addHandlers',
+	    value: function addHandlers() {
+	      // Listeners added on pull start
+	      document.addEventListener('mousemove', this.boundMouseMoveHandler);
+	      document.addEventListener('touchmove', this.boundMouseMoveHandler);
+	      document.addEventListener('mouseup', this.boundMouseUpHandler);
+	      document.addEventListener('touchend', this.boundMouseUpHandler);
+	    }
+	  }, {
+	    key: 'removeHandlers',
+	    value: function removeHandlers() {
+	      // Listeners removed after pull
+	      document.removeEventListener('mousemove', this.boundMouseMoveHandler);
+	      document.removeEventListener('touchmove', this.boundMouseMoveHandler);
+	      document.removeEventListener('mouseup', this.boundMouseUpHandler);
+	      document.removeEventListener('touchend', this.boundMouseUpHandler);
+	    }
+	  }, {
+	    key: 'mouseDownHandler',
+	    value: function mouseDownHandler(e) {
+	      if (e) this.stop(e);
+	      // If the target is the listener or the target is a designated PTR-target...
+	      if (e.target === e.currentTarget || e.target.classList.contains('pull-to-refresh-target')) {
+	        if (this.props.onPullStart) this.props.onPullStart();
+	        this.setState({
+	          isTouched: true, // The content div is being touched
+	          prevY: e.currentTarget.offsetTop - (e.touches !== undefined ? // The pointer position is captured
+	          e.touches[0].clientY : // Check for touch vs mouse
+	          e.clientY),
+	          transition: 'none' // Fail-safe removal of transition
+	        });
+	        this.addHandlers();
+	      }
+	    }
+	  }, {
+	    key: 'mouseMoveHandler',
+	    value: function mouseMoveHandler(e) {
+	      var _this2 = this;
+
+	      if (e) this.stop(e);
+	      // Perform move handling only if the content div is being touched and it hasn't crossed limits
+	      console.log(e.clientY, this.state.prevY);
+	      if (this.state.isTouched === true && this.state.nextY <= this.props.limit && this.state.nextY >= 0) {
+	        this.setState({
+	          nextY: Math.min(this.state.prevY + (e.touches !== undefined ? e.touches[0].clientY : e.clientY), this.props.limit), // Calculate the progress
+	          progress: Math.floor(Math.min(this.state.nextY / this.props.threshold * 100, 100))
+	        }, function () {
+	          console.log(JSON.stringify(_this2.state));
+	        });
+	        if (this.props.onPull) this.props.onPull(this.state.progress); // Call any callbacks
+	        // If the threshold has been passed, the refresh is primed
+	        if (this.state.nextY >= this.props.threshold) this.setState({ toTrigger: true });
+	        // If the position drops below the threshold, the trigger is deactivated
+	        if (this.state.nextY < this.props.threshold) this.setState({ toTrigger: false });
+	      }
+	    }
+	  }, {
+	    key: 'mouseUpHandler',
+	    value: function mouseUpHandler(e) {
+	      var _this3 = this;
+
+	      if (e) this.stop(e);
+	      this.setState({
+	        nextY: this.state.toTrigger ? this.props.threshold : 0, // If triggered, defer to release
+	        transition: 'top ' + this.props.snap + 'ms' // Smooth-scroll to position
+	      });
+	      setTimeout(function () {
+	        // Wait for animation before running callback or setting props
+	        if (_this3.props.onPullEnd) _this3.props.onPullEnd(_this3.state.toTrigger);
+	        if (_this3.state.toTrigger) {
+	          // Trigger the callbacks
+	          if (_this3.refs && // if refs are present use them
+	          _this3.refs.pullToRefreshLoading && _this3.refs.pullToRefreshLoading.releasePTR) _this3.refs.pullToRefreshLoading.releasePTR();
+	          if (_this3.refs && // if refs are present use them
+	          _this3.refs.pullToRefreshContent && _this3.refs.pullToRefreshContent.releasePTR) his.refs.pullToRefreshContent.releasePTR();
+	          _this3.setState({ trigger: true }); // Otherwise just trigger prop
+	        }
+	      }, this.props.snap);
+	      this.removeHandlers();
+	    }
+	  }, {
+	    key: 'release',
+	    value: function release() {
+	      var _this4 = this;
+
+	      if (this.state.trigger === true) // This resets the state after the children have released it
+	        this.setState({
+	          isTouched: false,
+	          nextY: 0,
+	          progress: 0,
+	          trigger: false
+	        }); // Complete smooth scroll from threshold to 0
+	      setTimeout(function () {
+	        return _this4.setState({ transition: 'none', toTrigger: false });
+	      }, this.props.snap);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this5 = this;
+
+	      // const sizes = { width: '100%', minHeight: `${this.props.limit}px`}
+	      var el1 = _react2.default.cloneElement(this.props.children[0], _extends({}, this.props.children[0].props, {
+	        style: _extends({
+	          position: 'relative'
+	        }, this.props.children[0].props.style),
+	        progress: this.state.progress,
+	        position: this.state.nextY,
+	        threshold: this.props.threshold,
+	        release: this.release.bind(this),
+	        trigger: this.state.trigger,
+	        ref: 'pullToRefreshLoading'
+	      }));
+	      var el2 = _react2.default.cloneElement(this.props.children[1], _extends({}, this.props.children[1].props, {
+	        style: _extends({
+	          position: 'absolute',
+	          top: this.state.nextY || 0,
+	          transition: this.state.transition,
+	          cursor: 'pointer',
+	          zIndex: 1000
+	        }, this.props.children[1].props.style),
+	        progress: this.state.progress,
+	        position: this.state.nextY,
+	        threshold: this.props.threshold,
+	        release: this.release.bind(this),
+	        trigger: this.state.trigger,
+	        ref: 'pullToRefreshContent',
+	        onMouseDownCapture: function onMouseDownCapture(e) {
+	          return _this5.mouseDownHandler(e);
+	        },
+	        onTouchStartCapture: function onTouchStartCapture(e) {
+	          return _this5.mouseDownHandler(e);
+	        }
+	      }));
+	      return _react2.default.createElement(
+	        'div',
+	        { style: _extends({ width: '100%', height: '100%', position: 'relative' }, this.props.style) },
+	        el1,
+	        el2
+	      );
+	    }
+	  }]);
+
+	  return PullToRefresh;
+	}(_react.Component);
+
+	exports.default = PullToRefresh;
+
+/***/ },
+/* 228 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.TapCounter = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -26036,7 +26292,7 @@
 	exports.default = GameCounter;
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26083,6 +26339,104 @@
 	}(_react.Component);
 
 	exports.default = Example;
+
+/***/ },
+/* 230 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Loading = function (_Component) {
+	  _inherits(Loading, _Component);
+
+	  function Loading() {
+	    _classCallCheck(this, Loading);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Loading).call(this));
+
+	    _this.state = {
+	      rotation: 0
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Loading, [{
+	    key: 'releasePTR',
+	    value: function releasePTR() {
+	      var _this2 = this;
+
+	      console.log("releasePTR");
+	      var interval = setInterval(function () {
+	        console.log('rotating');
+	        _this2.setState({ rotation: (6 + _this2.state.rotation) % 360 });
+	      }, 16.66);
+	      setTimeout(function () {
+	        _this2.props.release();
+	        clearInterval(interval);
+	        _this2.setState({ rotation: 0 });
+	      }, 2000);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { style: _extends({}, this.props.style, { paddingTop: '96px', width: '100%' }) },
+	        _react2.default.createElement(
+	          'div',
+	          { style: {
+	              height: '64px',
+	              width: '64px',
+	              margin: 'auto',
+	              opacity: this.props.progress / 100,
+	              transform: 'rotate(' + this.state.rotation + 'deg)'
+	            } },
+	          _react2.default.createElement(
+	            'svg',
+	            { width: '64px', height: '64px', xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 100 100', preserveAspectRatio: 'xMidYMid', className: 'uil-default' },
+	            _react2.default.createElement('rect', { x: '0', y: '0', width: '64', height: '64', fill: 'none', className: 'bk' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(0 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(30 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(60 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(90 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(120 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(150 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(180 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(210 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(240 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(270 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(300 50 50) translate(0 -30)' }),
+	            _react2.default.createElement('rect', { x: '46.5', y: '40', width: '7', height: '20', rx: '5', ry: '5', fill: '#fff', transform: 'rotate(330 50 50) translate(0 -30)' })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Loading;
+	}(_react.Component);
+
+	exports.default = Loading;
 
 /***/ }
 /******/ ]);

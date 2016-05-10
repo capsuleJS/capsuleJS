@@ -18,6 +18,7 @@ export default class NavBar extends Component {
             <li className="list-item"><Link to="/">Home</Link></li>
             <li className="list-item"><Link to="example">SwipeCard</Link></li>
             <li className="list-item"><Link to="example">HoldToTrigger</Link></li>
+            <li className="list-item"><Link to="example">PullMeDown</Link></li>
             <li className="list-item"><Link to="example">TapCounter</Link></li>
           </ul>
         </div>
