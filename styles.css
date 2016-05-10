@@ -38,6 +38,17 @@ h1, h2, h3, h4, h5, h6 {
   transition: box-shadow 300ms;
 }
 
+.install-code {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.mark-class {
+  background-color: whitesmoke;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
 .center-button:hover {
   box-shadow: 0px 4px 32px 0px rgba(0,0,0,0.32);
   transition: box-shadow 300ms;
@@ -116,7 +127,7 @@ p[class^='byline'] {
   text-align: left;
   border-left: 5px solid #D8D8D8;
   max-width: 600px;
-  margin: 64px auto 0;
+  margin: 32px auto 0;
   padding: 10px 0 10px 30px;
 }
 
